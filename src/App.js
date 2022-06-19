@@ -6,8 +6,6 @@ function App() {
     <Router>
       <Routes />
     </Router>
-
-    {/* {questions && questions.map((q,i) => <p key={i}>{q.question}</p>)} */}
   </>
 }
 
