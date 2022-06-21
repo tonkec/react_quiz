@@ -1,12 +1,16 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { heading1 } from "./Typography";
 import {unescape} from 'html-escaper';
 
 const ScorePage = () => {
+    let navigate = useNavigate();
     const {state} = useLocation();
     const {questions} = state;
-    console.log("q",questions)
-    const score = questions.filter((question) => question.question.correct_answer.toLowerCase() === question.answer)
+    const score = questions.filter((question) => question.question.correct_answer.toLowerCase() === question.answer);
+
+    const navigateToHomePage = () => {
+        navigate("/")
+    }
     return (
         <>
          <h1 className={`${heading1} font-bold mb-10`}>You scored {score.length} / {questions.length}</h1>
@@ -15,6 +19,7 @@ const ScorePage = () => {
                 return <li className="text-ternary" key={i}> <ListIemMark question={question} /> {unescape(question.question.question)}</li>
             })}
          </ul>
+         <button className="mt-20" onClick={navigateToHomePage}>Play again?</button>
         </>
     )
 }
