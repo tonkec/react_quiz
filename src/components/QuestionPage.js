@@ -1,9 +1,8 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import {getAllQuestionsFromApi} from "./utils/api";
+import {getAllQuestionsFromApi} from "../utils/api";
 import {useEffect, useState, useCallback} from "react";
-import {heading1, heading2, button} from "./Typography";
-import {unescape} from 'html-escaper';
+import {heading1, heading2, button} from "./helpers/Typography";
 
 function QuestionPage() {
   let { id } = useParams();
@@ -40,7 +39,6 @@ function QuestionPage() {
   }
 
   useEffect(() => {
-
    if (allQuestions) {
      if (answeredQuestions.length === allQuestions.length) {
       navigate("/score", { state: { questions: answeredQuestions } });
@@ -50,7 +48,6 @@ function QuestionPage() {
 
   useEffect(() => {
     getAllQuestions()
-
   }, [getAllQuestions])
 
   return (

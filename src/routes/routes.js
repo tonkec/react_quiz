@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import QuestionPage from "./QuestionPage";
-import QuestionPageLayout from "./QuestionPageLayout";
-import ScorePage from "./ScorePage";
-import HomePage from "./Homepage"
+import QuestionPage from "./../components/QuestionPage";
+import QuestionPageLayout from "./../components/QuestionPageLayout";
+import ScorePage from "./../components/ScorePage";
+import HomePage from "./../components/Homepage"
 const QuizRoutes = () => {
     return (
         <Routes>

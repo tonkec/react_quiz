@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { heading1 } from "./Typography";
+import { heading1 } from "./helpers/Typography";
 
 const ScorePage = () => {
     let navigate = useNavigate();
@@ -13,7 +13,7 @@ const ScorePage = () => {
 
     const createMarkup = (question) => {
         return {__html: question};
-      }
+    }
     return (
         <>
          <h1 className={`${heading1} font-bold mb-10`}>You scored {score.length} / {questions.length}</h1>

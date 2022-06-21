@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { heading1, heading2 } from "./Typography";
+import { heading1, heading2 } from "./helpers/Typography";
 const HomePage = () => {
     let navigate = useNavigate();
 
