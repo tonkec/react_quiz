@@ -55,7 +55,7 @@ function QuestionPage() {
         {currentQuestion && <h1 className={`${heading1} font-bold`}> {currentQuestion.category}</h1>}
        <div>
        <div className='border-2 border-black p-2 mb-2'>
-          {currentQuestion && <h2 className={`${heading2} font-normal`}>{unescape(currentQuestion.question)}</h2>}
+          {currentQuestion && <h2 className={`${heading2} font-normal break-all`}>{unescape(currentQuestion.question)}</h2>}
         </div>
         {allQuestions && <h2 className={`${heading2} font-normal`}> {`${nextQuestionId} of ${allQuestions.length}`}</h2>}
        </div>
