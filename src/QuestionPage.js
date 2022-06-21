@@ -16,7 +16,6 @@ function QuestionPage() {
   const currentQuestion = allQuestions ? allQuestions[Number(id) - 1] : null;
 
   const getAllQuestions = useCallback(async () => {
-    console.log("gettin")
     const questions = await getAllQuestionsFromApi(); 
     setAllQuestions(questions);
     setIsLoaded(true);
@@ -29,32 +28,26 @@ function QuestionPage() {
   }
 
   const navigateToNextQuestion = (e) => {
-    console.log("click")
     nextQuestionId = Number(id) + 1;
     setQuestionsToState(e.target.value);
-    console.log(nextQuestionId)
-    console.log(allQuestions.length)
     if (Number(nextQuestionId) <= allQuestions.length + 1) {
       navigate(`/questions/${Number(nextQuestionId)}`);
     }
-    console.log(answeredQuestions)
-
   }
 
   useEffect(() => {
 
    if (allQuestions) {
-    console.log('answeredQuestions.length', answeredQuestions.length)
      if (answeredQuestions.length === allQuestions.length) {
       navigate("/score", { state: { questions: answeredQuestions } });
     } 
    }
-  }, [nextQuestionId])
+  }, [nextQuestionId, allQuestions, answeredQuestions, navigate])
 
   useEffect(() => {
     getAllQuestions()
 
-  }, [])
+  }, [getAllQuestions])
 
   return (
     <>
