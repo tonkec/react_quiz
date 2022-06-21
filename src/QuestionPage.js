@@ -1,43 +1,77 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {getAllQuestionsFromApi} from "./utils/api";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
+import {heading1, heading2, button} from "./Typography";
+import {unescape} from 'html-escaper';
+
 function QuestionPage() {
   let { id } = useParams();
+  let nextQuestionId = id;
+
   let navigate = useNavigate();
-  const [singleQuestion, setSingleQuestion] = useState(null);
   const [allQuestions, setAllQuestions] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [answeredQuestions, setAnsweredQuestions] = useState([])  
+  const currentQuestion = allQuestions ? allQuestions[Number(id) - 1] : null;
 
-
-  const getAllQuestions = async () => {
-    const questions = await getAllQuestionsFromApi();
+  const getAllQuestions = useCallback(async () => {
+    console.log("gettin")
+    const questions = await getAllQuestionsFromApi(); 
     setAllQuestions(questions);
-    setCurrentQuestion(questions)
+    setIsLoaded(true);
+  }, [setIsLoaded])
+
+  const setQuestionsToState = (userValue) => {
+    setAnsweredQuestions((prevValue) => {
+      return [...prevValue, {question: currentQuestion, answer: userValue}]
+    })
   }
 
-  const setCurrentQuestion = (questions) => {
-    const currentQuestion =  questions[id - 1];
-    setSingleQuestion(currentQuestion)
-  }
-
-  const navigateToNextQuestion = () => {
-    id++
-    if (Number(id) <= allQuestions.length) {
-      setCurrentQuestion(allQuestions)
-      navigate(`/questions/${Number(id)}`, {replace: true})
+  const navigateToNextQuestion = (e) => {
+    console.log("click")
+    nextQuestionId = Number(id) + 1;
+    setQuestionsToState(e.target.value);
+    console.log(nextQuestionId)
+    console.log(allQuestions.length)
+    if (Number(nextQuestionId) <= allQuestions.length + 1) {
+      navigate(`/questions/${Number(nextQuestionId)}`);
     }
+    console.log(answeredQuestions)
+
   }
 
   useEffect(() => {
+
+   if (allQuestions) {
+    console.log('answeredQuestions.length', answeredQuestions.length)
+     if (answeredQuestions.length === allQuestions.length) {
+      navigate("/score", { state: { questions: answeredQuestions } });
+    } 
+   }
+  }, [nextQuestionId])
+
+  useEffect(() => {
     getAllQuestions()
+
   }, [])
 
   return (
-    <div>
-        {singleQuestion && <h1> {singleQuestion.question}</h1>}
-        {allQuestions && `${id} of ${allQuestions.length}`}
-        <button onClick={navigateToNextQuestion}>True</button>
-    </div>
+    <>
+       {isLoaded ? <>
+        {currentQuestion && <h1 className={`${heading1} font-bold`}> {currentQuestion.category}</h1>}
+       <div>
+       <div className='border-2 border-black p-2 mb-2'>
+          {currentQuestion && <h2 className={`${heading2} font-normal`}>{unescape(currentQuestion.question)}</h2>}
+        </div>
+        {allQuestions && <h2 className={`${heading2} font-normal`}> {`${nextQuestionId} of ${allQuestions.length}`}</h2>}
+       </div>
+        <div className='flex justify-between'>
+          <button className={button} value={true} onClick={navigateToNextQuestion}>True</button>
+          <button className={button} value={false} onClick={navigateToNextQuestion}>False</button>
+        </div>
+       </> : <h1>Loading...</h1>}
+    </>
   )
 }
 

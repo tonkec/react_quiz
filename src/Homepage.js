@@ -1,16 +1,18 @@
 import { useNavigate } from "react-router-dom";
-
+import { heading1, heading2 } from "./Typography";
 const HomePage = () => {
     let navigate = useNavigate();
 
     const navigateToFirstQuestion = () => {
-        navigate("/question/1")
+        navigate("/questions/1")
     }
    return (
-        <div>
-            <h1>Welcome to the Trivia Challenge</h1>
-            <button onClick={navigateToFirstQuestion}>Begin</button>
-        </div>
+       <>       
+        <h1 className={`${heading1} mb-20 font-bold`}>Welcome to the Trivia Challenge</h1>
+        <h2 className={`${heading2} mb-20`}>You will be presented with 10 True of False questions.</h2>
+        <h2 className={`${heading2} mb-20`}> Can you score 100%?</h2>
+        <button onClick={navigateToFirstQuestion} className="uppercase">Begin</button>
+       </>
     )
     
 }
